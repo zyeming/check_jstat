@@ -163,9 +163,10 @@ permratio=$((($pu * 100) / $pgcmx))
 #echo "youg+old=${heap}k, (Max=${heapmx}k, current=${heapratio}%)"
 #echo "perm=${pu}k, (Max=${pgcmx}k, current=${permratio}%)"
 
+thread=`ps huH p ${pid} | wc -l`
 
 hostname=`hostname`
-perfdata="heap=${heap}KB;;;0;${heapmx} heap:ratio=${heapratio}%;$ws;$cs perm=${pu}KB;;;0;${pgcmx} perm:ratio=${permratio}%;$ws;$cs"
+perfdata="heap=${heap}KB;;;0;${heapmx} heap:ratio=${heapratio}%;$ws;$cs perm=${pu}KB;;;0;${pgcmx} perm:ratio=${permratio}%;$ws;$cs threads=${thread}:200:500"
 
 if [ $cs -gt 0 -a $permratio -ge $cs ]; then
     echo "$hostname;$label;2;critical PermGen (${permratio}% of MaxPermSize)|$perfdata"
