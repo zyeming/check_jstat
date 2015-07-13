@@ -41,6 +41,7 @@ function usage() {
     echo "                      looked for (as long there is only one)"
     echo "       -w <%>         the warning threshold ratio current/max in %"
     echo "       -c <%>         the critical threshold ratio current/max in %"
+    echo "       -l <%>         the nagios label"
 }
 
 VERSION='1.3'
@@ -50,7 +51,7 @@ ws=-1
 cs=-1
 use_jps=0
 
-while getopts hvp:s:j:w:c: opt ; do
+while getopts hvp:s:j:w:c:l: opt ; do
     case ${opt} in
     v)  echo "$0 version $VERSION"
         exit 0
@@ -69,6 +70,8 @@ while getopts hvp:s:j:w:c: opt ; do
         ;;
     c)  cs="${OPTARG}"
         ;;
+    l)  label="${OPTARG}"
+	;;
     esac
 done
 
@@ -114,8 +117,8 @@ elif [ -n "$service" ] ; then
     fi
     pid=$(cat /var/run/${service}.pid)
     label=$service
-else
-    label=$pid
+#else
+#    label=$pid
 fi
 
 if [ ! -d /proc/$pid ] ; then
